@@ -8,6 +8,10 @@ const RightLayout = () => {
             <h1 className='mx-1.5 font-bold text-lg'>Suggesions</h1>
             <div className='overflow-y-auto h-11/12 w-11/12 mx-auto p-1'>
                 <SuggestCardS name={"User1"} username={"user1"} img={"images/profile.png"}/>
+                <SuggestCardS name={"User1"} username={"user1"} img={"images/profile.png"}/>
+                <SuggestCardS name={"User1"} username={"user1"} img={"images/profile.png"}/>
+                <SuggestCardS name={"User1"} username={"user1"} img={"images/profile.png"}/>
+                <SuggestCardS name={"User1"} username={"user1"} img={"images/profile.png"}/>
             </div>
         </div>
         <div className='h-1/3 w-full  bg-amber-400'></div>

@@ -2,8 +2,8 @@ import React from 'react'
 
 const SuggestCardS = ({name,username,img,isVerify}) => {
   return (
-    <div className='h-[10vh] w-full  flex py-2 px-1  relative bg-amber-500'>
-      <img src={img} alt="" /> 
+    <div className='h-[10vh] w-full  flex py-2 px-1  relative shadow rounded-2xl mt-2 items-center'>
+      <img src={img} alt="" className='h-[8vh]' /> 
       <div className='flex flex-col justify-between ml-3'>
         <h1>{name}</h1>
         <h2>@{username}</h2>

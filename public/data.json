@@ -1,0 +1,26 @@
+[
+    {
+        "postId":1,
+        "userName":"Hansaka",
+        "userImage":"images/profile.png",
+        "description":"hello world",
+        "date":"november 20",
+        "images":["/images/sgiriya.jpg","/images/sgiriya.jpg"]
+    },
+    {
+        "postId":2,
+        "userName":"Hansaka",
+        "userImage":"images/profile.png",
+        "description":"hello world",
+        "date":"november 20",
+        "images":["/images/sgiriya.jpg","/images/sgiriya.jpg"]
+    },
+    {
+        "postId":3,
+        "userName":"Hansaka",
+        "userImage":"images/profile.png",
+        "description":"hello world",
+        "date":"november 20",
+        "images":["/images/sgiriya.jpg","/images/sgiriya.jpg"]
+    }
+]
