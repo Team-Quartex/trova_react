@@ -7,8 +7,10 @@ const ProfileNav = () => {
         { label: "NewsFeed", icon: "fi fi-sr-plane-alt",route:"/" },
         { label: "Messages", icon: "fi fi-sr-envelope",route:"/message" },
         { label: "Friends", icon: "fi fi-sr-users",route:"/friends" },
-        { label: "Notifications", icon: "fi fi-sr-bell",route:"/" },
-        { label: "Settings", icon: "fi fi-sr-settings",route:"/home" },
+        { label: "Hotels", icon: "fi fi-rs-dorm-room",route:"/" },
+        { label: "Dayout", icon: "fi fi-br-roller-coaster",route:"/home" },
+        { label: "Resturant", icon: "fi fi-br-concierge-bell",route:"/home" },
+        { label: "Market Place", icon: "fi fi-rr-shop",route:"/home" },
     ]
 
   return (
@@ -25,7 +27,7 @@ const ProfileNav = () => {
         <h1>0 Follower</h1>
       </div>
       {/* Navigation Layer */}
-      <div className='w-2/3 py-3 flex flex-col gap-3'>
+      <div className='w-2/3 py-1 flex flex-col gap-1'>
         {navItems.map((item,index)=>(
             <NavButton key={index}
             route={item.route}

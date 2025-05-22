@@ -14,7 +14,7 @@ const RightLayout = () => {
                 <SuggestCardS name={"User1"} username={"user1"} img={"images/profile.png"}/>
             </div>
         </div>
-        <div className='h-1/3 w-full  rounded-2xl'>
+        <div className='h-1/3 w-full  rounded-2xl p-2'>
           <img src="images/banner.jpeg" className='w-full h-full object-cover rounded-2xl' alt="" />
         </div>
     </div>
