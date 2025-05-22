@@ -4,11 +4,11 @@ import NavButton from './NavButton'
 const ProfileNav = () => {
     const [activeButton,setActiveButton] = useState(0);
     const navItems = [
-        { label: "NewsFeed", icon: "fi fi-sr-plane-alt" },
-        { label: "Messages", icon: "fi fi-sr-envelope" },
-        { label: "Friends", icon: "fi fi-sr-users" },
-        { label: "Notifications", icon: "fi fi-sr-bell" },
-        { label: "Settings", icon: "fi fi-sr-settings" },
+        { label: "NewsFeed", icon: "fi fi-sr-plane-alt",route:"/" },
+        { label: "Messages", icon: "fi fi-sr-envelope",route:"/message" },
+        { label: "Friends", icon: "fi fi-sr-users",route:"/friends" },
+        { label: "Notifications", icon: "fi fi-sr-bell",route:"/" },
+        { label: "Settings", icon: "fi fi-sr-settings",route:"/home" },
     ]
 
   return (
@@ -28,6 +28,7 @@ const ProfileNav = () => {
       <div className='w-2/3 py-3 flex flex-col gap-3'>
         {navItems.map((item,index)=>(
             <NavButton key={index}
+            route={item.route}
             lable={item.label}
             icon={item.icon}
             isActive={activeButton===index}
