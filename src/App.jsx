@@ -8,6 +8,8 @@ import ShowPost from './layouts/ShowPost'
 import FeedHome from './layouts/FeedHome'
 import FeedMessage from './layouts/FeedMessage'
 import FeedFriends from './layouts/FeedFriends'
+import SearchLayout from './layouts/SearchLayout'
+import FeedNotification from './layouts/FeedNotification'
 
 const App = () => {
   return (
@@ -16,8 +18,11 @@ const App = () => {
         <Route index element={<FeedHome />} />
         <Route path="message" element={<FeedMessage />} />
         <Route path="friends" element={<FeedFriends />} />
-        <Route path="notification" element={<FeedHome />} />
-        <Route  path='search' element={<ShowPost />} />
+        <Route path="notifications" element={<FeedNotification />} />
+        <Route  path='search' element={<SearchLayout />} />
+        <Route  path='hotels' element={<SearchLayout />} />
+        <Route  path='marketplace' element={<SearchLayout />} />
+        <Route  path='events' element={<SearchLayout />} />
       </Route>
       <Route  path="/login" element={<Login />} />
       <Route  path="/profile" element={<Login />} />

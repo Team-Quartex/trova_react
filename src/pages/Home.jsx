@@ -3,6 +3,7 @@ import ProfileNav from '../components/ProfileNav'
 import RightLayout from '../layouts/RightLayout'
 import { Link, Outlet,useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
+import NotificationPanel from '../components/NotificationPanel'
 
 const Home = () => {
   const location = useLocation();
@@ -17,7 +18,7 @@ const Home = () => {
     if (path === '/' || path === '/home') return 'Feed';
     if (path === '/message') return 'Messages';
     if (path === '/friends') return 'Friends';
-    if (path === '/notification') return 'Notifications';
+    if (path === '/notifications') return 'Notifications';
     if (path === '/search') return 'Search';
     return 'Page';
   };
@@ -39,9 +40,7 @@ const Home = () => {
                 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E"
                 alt="Search" width="20" height="20" />
               </button>
-              {showNotification && <div className='absolute w-72 h-60 bg-white z-50 right-0 mt-0.5 shadow rounded-2xl'>
-
-              </div>}
+              {showNotification && <NotificationPanel onClick={toggleNotication}/>}
             </div>
             {getPageTitle()!="Search" && <Link to={"/search"} className='bg-primary p-2 rounded-[50%]'>
               <img
