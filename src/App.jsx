@@ -28,7 +28,7 @@ const App = () => {
       <Route  path="/profile" element={<Login />} />
       <Route  path="/signup" element={<Signup />} />
       <Route  path="/forgetPassword" element={<ForgetPassword />} />
-      <Route  path='/post' element={<ShowPost />} />
+      <Route  path='/post/:postId' element={<ShowPost />} />
     </Routes>
   )
 }
