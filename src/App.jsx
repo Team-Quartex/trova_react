@@ -10,6 +10,7 @@ import FeedMessage from './layouts/FeedMessage'
 import FeedFriends from './layouts/FeedFriends'
 import SearchLayout from './layouts/SearchLayout'
 import FeedNotification from './layouts/FeedNotification'
+import FeedHotel from './layouts/FeedHotel'
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
         <Route path="friends" element={<FeedFriends />} />
         <Route path="notifications" element={<FeedNotification />} />
         <Route  path='search' element={<SearchLayout />} />
-        <Route  path='hotels' element={<SearchLayout />} />
+        <Route  path='hotels' element={<FeedHotel />} />
         <Route  path='marketplace' element={<SearchLayout />} />
         <Route  path='events' element={<SearchLayout />} />
       </Route>

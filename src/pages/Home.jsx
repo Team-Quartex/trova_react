@@ -20,6 +20,7 @@ const Home = () => {
     if (path === '/friends') return 'Friends';
     if (path === '/notifications') return 'Notifications';
     if (path === '/search') return 'Search';
+    if(path==='/hotels') return 'Hotels';
     return 'Page';
   };
   return (
