@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Alice Johnson",
+    "username": "alicej",
+    "image": "images/profile.png"
+  },
+  {
+    "name": "Brian Smith",
+    "username": "brians",
+    "image": "images/profile.png"
+  },
+  {
+    "name": "Catherine Lee",
+    "username": "cathlee",
+    "image": "images/profile.png"
+  },
+  {
+    "name": "David Kim",
+    "username": "davidk",
+    "image": "images/profile.png"
+  },
+  {
+    "name": "Emily Davis",
+    "username": "emilyd",
+    "image": "images/profile.png"
+  },
+  {
+    "name": "Frank Miller",
+    "username": "frankm",
+    "image": "images/profile.png"
+  },
+  {
+    "name": "Grace Parker",
+    "username": "gracep",
+    "image": "images/profile.png"
+  },
+  {
+    "name": "Henry Wilson",
+    "username": "henryw",
+    "image": "images/profile.png"
+  },
+  {
+    "name": "Isabella Moore",
+    "username": "isabellam",
+    "image": "images/profile.png"
+  },
+  {
+    "name": "Jack Turner",
+    "username": "jackt",
+    "image": "images/profile.png"
+  }
+]
