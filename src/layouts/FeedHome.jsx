@@ -1,15 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PostForm from '../components/PostForm'
 import Post from '../components/Post'
 import {postData} from '../assets/data'
 
 const FeedHome = () => {
+
+  const [posts,setposts] = useState([]);
+
+  useEffect(()=>{
+    const fetchPost = async()=>{
+      const respones = await fetch("/data.json");
+      if(respones.ok){
+        
+        const data = respones.data;
+        setposts(await respones.json());
+        console.log(await respones.json())
+      }
+    }
+
+    fetchPost();
+  },[])
+
   return (
     <>
       
       <div className='h-full overflow-y-auto pb-8'>
         <PostForm></PostForm>
-        {postData.map(post => (
+        {posts.map(post => (
         <Post
           key={post.id}
           userName={post.userName}

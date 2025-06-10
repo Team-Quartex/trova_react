@@ -21,6 +21,7 @@ const Home = () => {
     if (path === '/notifications') return 'Notifications';
     if (path === '/search') return 'Search';
     if(path==='/hotels') return 'Hotels';
+    if(path==='/dayouts') return 'Dayouts';
     return 'Page';
   };
   return (

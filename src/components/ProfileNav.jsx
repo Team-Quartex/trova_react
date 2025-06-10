@@ -8,9 +8,9 @@ const ProfileNav = () => {
         { label: "Messages", icon: "fi fi-sr-envelope",route:"/message" },
         { label: "Friends", icon: "fi fi-sr-users",route:"/friends" },
         { label: "Hotels", icon: "fi fi-rs-dorm-room",route:"/hotels" },
-        { label: "Dayout", icon: "fi fi-br-roller-coaster",route:"/home" },
-        { label: "Resturant", icon: "fi fi-br-concierge-bell",route:"/home" },
-        { label: "Market Place", icon: "fi fi-rr-shop",route:"/home" },
+        { label: "Dayout", icon: "fi fi-br-roller-coaster",route:"/dayouts" },
+        { label: "Resturant", icon: "fi fi-br-concierge-bell",route:"/restuarants" },
+        { label: "Market Place", icon: "fi fi-rr-shop",route:"/marketplace" },
     ]
 
   return (
