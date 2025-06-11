@@ -16,11 +16,11 @@ import FeedRestuarant from "./layouts/FeedRestuarant";
 import FeedMarketplace from "./layouts/FeedRestuarant";
 
 const App = () => {
-  const location = useLocation();
+  /* const location = useLocation();
   const state = useLocation.state;
 
   const background = location && state.background;
-
+ */
   return (
     <>
       <Routes>
@@ -43,11 +43,11 @@ const App = () => {
         <Route path="/post/:postId" element={<ShowPost />} />
       </Routes>
 
-      {background && (
+      {/* {background && (
         <Routes>
           <Route path="/profile" element={<ProfileModal />} />
         </Routes>
-      )}
+      )} */}
     </>
   );
 };
