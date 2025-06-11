@@ -5,6 +5,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import NotificationPanel from '../components/NotificationPanel';
 import { FiSettings, FiMail, FiBell, FiSearch, FiMenu, FiX } from 'react-icons/fi';
+import EndScreen from '../components/EndScreen'; 
 
 const Home = () => {
   const location = useLocation();
@@ -98,6 +99,7 @@ const Home = () => {
             <Outlet />
           </motion.div>
         </AnimatePresence>
+        <EndScreen />
       </div>
 
       {/* Right Sidebar: Only for lg+ */}
