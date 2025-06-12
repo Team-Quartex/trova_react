@@ -18,6 +18,11 @@ const PostForm = () => {
             cols="30"
             placeholder="What's your mind..."
             className="flex-grow resize-none border-none outline-none bg-transparent text-base placeholder:text-primary placeholder:font-light placeholder:text-2xl"
+            style={{
+    caretColor: '#52b788',
+    
+   
+  }}
           />
           <FiSmile className="text-xl text-gray-500 hover:text-green-600 transition cursor-pointer mt-1.5" />
         </div>
@@ -34,6 +39,7 @@ const PostForm = () => {
             placeholder="Type a city name"
             autoComplete="off"
             className="px-3 py-1.5 rounded-xl border border-gray-300 text-sm outline-none focus:border-green-500 transition bg-white"
+            
           />
 
           <div className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white border border-gray-300 text-sm cursor-pointer hover:border-green-500 transition">

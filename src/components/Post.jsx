@@ -9,6 +9,9 @@ import { FiShare, FiSend } from 'react-icons/fi';
 import { FaShareSquare } from 'react-icons/fa';
 import { AnimatePresence, motion } from 'framer-motion';
 import PostImage from './PostImage';
+import VerifiedBadge from '../components/VerifiedBadge'; // adjust the path if needed
+
+
 
 const Post = ({ userName, userImage, images, date, description, likes, comments }) => {
   const [liked, setLiked] = useState(false);
@@ -34,9 +37,12 @@ const Post = ({ userName, userImage, images, date, description, likes, comments 
         <div className='flex gap-4 items-center flex-shrink-0'>
           <img src={userImage} alt="" className='w-12 h-12 rounded-full object-cover' />
           <div className='flex flex-col'>
-            <h1 className='text-lg sm:text-xl font-bold'>{userName}</h1>
-            <h3 className='text-xs sm:text-sm text-gray-600'>{date}</h3>
-          </div>
+  <div className='flex items-center gap-1'>
+    <h1 className='text-lg sm:text-xl font-bold'>{userName}</h1>
+    <VerifiedBadge size="13px" />
+  </div>
+  <h3 className='text-xs sm:text-sm text-gray-600'>{date}</h3>
+</div>
         </div>
         <button className='mt-2 sm:mt-0 p-1 rounded hover:bg-gray-200 transition'>
           <i className='fi fi-rr-bookmark'></i>
