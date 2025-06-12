@@ -1,28 +1,26 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react';
 
-const TextInput = ({type,placeholder,icon,toggleable = false}) => {
-    const [showPassowrd,setShowPasswprd] = useState(false);
-    const iconClass = " absolute right-3 text-black top-1/2 transform translate-y-[-50%] text-blue-500 text-lg"
-    const togglePassword =()=>{
-        setShowPasswprd(!showPassowrd);
-    }
+const TextInput = ({ type, placeholder, icon, toggleable = false }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div className='relative w-[90%]'>
-      <input type={toggleable?(showPassowrd?"text":'password'):type} 
-      placeholder={placeholder} 
-      className='w-full py-2.5 pr-10 pl-1.5 border-0 border-b-2 border-b-amber-100 text-sm placeholder:text-primary focus:outline-0'
-      required />
-      {toggleable ? (
-        <i
-          className={icon + " " + iconClass}
-          onClick={togglePassword}
-          style={{ cursor: "pointer" }}
-        ></i>
-      ) : (
-        <i className={icon + " " + iconClass}></i>
-      )}
+    <div className="relative w-full">
+      <input
+        type={toggleable ? (showPassword ? 'text' : 'password') : type}
+        placeholder={placeholder}
+        className="w-full py-3 pl-4 pr-12 text-sm border border-gray-300 rounded-xl bg-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#1A8381] transition-all"
+        required
+      />
+      <i
+        className={`${icon} absolute right-4 top-1/2 transform -translate-y-1/2 text-[#1A8381] text-lg cursor-pointer`}
+        onClick={toggleable ? toggleVisibility : undefined}
+      ></i>
     </div>
-  )
-}
+  );
+};
 
-export default TextInput
+export default TextInput;
