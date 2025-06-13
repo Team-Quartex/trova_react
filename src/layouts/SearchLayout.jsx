@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { FiSearch } from 'react-icons/fi';
+import { FiSearch, FiArrowLeft } from 'react-icons/fi';
 import Post from '../components/Post';
 import SearchSuggestions from '../components/SearchSuggestions';
 
@@ -32,28 +32,39 @@ const dummyPosts = [
 const SearchLayout = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  return (
-    <div className="w-full min-h-screen bg-[#f9fafb] px-4 py-6">
-      {/* Search Bar */}
-      <div className="relative max-w-4xl mx-auto mb-8">
-        <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
-        <input
-          type="search"
-          className="w-full pl-12 pr-4 py-3 rounded-2xl shadow-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#22a461] bg-white text-sm sm:text-base"
-          placeholder="Search here..."
-          onFocus={() => setShowSuggestions(true)}
-          onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-        />
-        {showSuggestions && <SearchSuggestions />}
-      </div>
+  const handleBack = () => {
+    if (typeof window !== 'undefined') {
+      window.history.back();
+    }
+  };
 
-      {/* Posts */}
-      <div className="flex flex-col gap-6 max-w-4xl mx-auto">
-        {dummyPosts.map((post, index) => (
-          <Post key={index} {...post} />
-        ))}
+  return (
+    <>
+   
+
+      <div className="w-full min-h-screen bg-[#f9fafb] px-4 py-6">
+        
+        {/* Search Bar */}
+        <div className="relative max-w-4xl mx-auto mb-8">
+          <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+          <input
+            type="search"
+            className="w-full pl-12 pr-4 py-3 rounded-2xl shadow-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#22a461] bg-white text-sm sm:text-base"
+            placeholder="Search here..."
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+          />
+          {showSuggestions && <SearchSuggestions />}
+        </div>
+
+        {/* Posts */}
+        <div className="flex flex-col gap-6 max-w-4xl mx-auto">
+          {dummyPosts.map((post, index) => (
+            <Post key={index} {...post} />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

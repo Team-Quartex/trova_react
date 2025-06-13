@@ -14,6 +14,7 @@ import FeedHotel from "./layouts/FeedHotel";
 import FeedDayout from "./layouts/FeedDayout";
 import FeedRestuarant from "./layouts/FeedRestuarant";
 import FeedMarketplace from "./layouts/FeedRestuarant";
+import OtherUserProfile from './pages/OtherUserProfile';
 
 const App = () => {
   /* const location = useLocation();
@@ -41,6 +42,8 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgetPassword" element={<ForgetPassword />} />
         <Route path="/post/:postId" element={<ShowPost />} />
+        <Route path="/profile/:username" element={<OtherUserProfile />} />
+
       </Routes>
 
       {/* {background && (
