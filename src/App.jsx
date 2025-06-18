@@ -15,8 +15,10 @@ import FeedDayout from "./layouts/FeedDayout";
 import FeedRestuarant from "./layouts/FeedRestuarant";
 import FeedMarketplace from "./layouts/FeedRestuarant";
 import OtherUserProfile from './pages/OtherUserProfile';
+import ReelPlayer from "./pages/ReelPlayer";
 
 const App = () => {
+  
   /* const location = useLocation();
   const state = useLocation.state;
 
@@ -43,6 +45,7 @@ const App = () => {
         <Route path="/forgetPassword" element={<ForgetPassword />} />
         <Route path="/post/:postId" element={<ShowPost />} />
         <Route path="/profile/:username" element={<OtherUserProfile />} />
+        <Route path="/reel/:id" element={<ReelPlayer />} />
 
       </Routes>
 

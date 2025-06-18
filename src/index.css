@@ -4,3 +4,11 @@
     --color-primary: #1A8381;
     --color-secondory:#238688;
 }
+/* In your global CSS or Tailwind config */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
