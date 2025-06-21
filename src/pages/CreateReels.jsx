@@ -18,6 +18,57 @@ const categoryOptions = [
   { value: "other", label: "Other", icon: "📂" },
 ]
 
+// Loading Screen Component
+const LoadingScreen = () => {
+  return (
+    <div className="fixed inset-0 bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center z-50">
+      <div className="text-center">
+        {/* Logo/Icon */}
+        <div className="mb-8">
+          <div className="w-20 h-20 mx-auto bg-gradient-to-r from-[#208b3a] to-[#25a244] rounded-2xl flex items-center justify-center shadow-lg">
+            <svg className="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3l14 9-14 9V3z" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Loading Animation */}
+        <div className="mb-6">
+          <div className="flex justify-center space-x-2">
+            <div className="w-3 h-3 bg-[#208b3a] rounded-full animate-bounce"></div>
+            <div className="w-3 h-3 bg-[#25a244] rounded-full animate-bounce" style={{ animationDelay: "0.1s" }}></div>
+            <div className="w-3 h-3 bg-[#2dc653] rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+          </div>
+        </div>
+
+        {/* Loading Text */}
+        <h1 className="text-2xl font-bold bg-gradient-to-r from-[#208b3a] to-[#2dc653] bg-clip-text text-transparent mb-2">
+          Loading Creator Studio
+        </h1>
+        <p className="text-gray-600 text-sm">Preparing your creative workspace...</p>
+
+        {/* Progress Bar */}
+        <div className="mt-6 w-64 mx-auto">
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div
+              className="bg-gradient-to-r from-[#208b3a] to-[#25a244] h-2 rounded-full animate-pulse"
+              style={{ width: "100%", animation: "loading 2s ease-in-out infinite" }}
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes loading {
+          0% { width: 0%; }
+          50% { width: 70%; }
+          100% { width: 100%; }
+        }
+      `}</style>
+    </div>
+  )
+}
+
 const CreateReels = () => {
   const navigate = useNavigate()
   const fileInputRef = useRef(null)
@@ -25,6 +76,9 @@ const CreateReels = () => {
   const mediaRecorderRef = useRef(null)
   const streamRef = useRef(null)
   const chunksRef = useRef([])
+
+  // Loading state
+  const [isLoading, setIsLoading] = useState(true)
 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -43,6 +97,15 @@ const CreateReels = () => {
   const [facingMode, setFacingMode] = useState("user")
   const [cameraError, setCameraError] = useState("")
   const [isProcessing, setIsProcessing] = useState(false)
+
+  // Loading effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 2500) // Show loading for 2.5 seconds
+
+    return () => clearTimeout(timer)
+  }, [])
 
   // Timer for recording
   useEffect(() => {
@@ -73,54 +136,54 @@ const CreateReels = () => {
   }
 
   const startCamera = async () => {
-  try {
-    setCameraError("");
-    setIsProcessing(true);
+    try {
+      setCameraError("")
+      setIsProcessing(true)
 
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => track.stop());
-    }
-
-    const constraints = {
-      video: {
-        facingMode: facingMode,
-        width: { ideal: 1280, max: 1920 },
-        height: { ideal: 720, max: 1080 }
-      },
-      audio: {
-        echoCancellation: true,
-        noiseSuppression: true
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop())
       }
-    };
 
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    streamRef.current = stream;
+      const constraints = {
+        video: {
+          facingMode: facingMode,
+          width: { ideal: 1280, max: 1920 },
+          height: { ideal: 720, max: 1080 },
+        },
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+        },
+      }
 
-    if (videoRef.current) {
-      videoRef.current.srcObject = null;  // Clear previous
-      videoRef.current.srcObject = stream;
-      await new Promise((resolve) => {
-        videoRef.current.onloadedmetadata = async () => {
-          try {
-            await videoRef.current.play();
-            resolve();
-          } catch (err) {
-            console.error("Autoplay/play failed:", err);
-            setCameraError("Unable to start video preview: " + err.message);
+      const stream = await navigator.mediaDevices.getUserMedia(constraints)
+      streamRef.current = stream
+
+      if (videoRef.current) {
+        videoRef.current.srcObject = null
+        videoRef.current.srcObject = stream
+        await new Promise((resolve) => {
+          videoRef.current.onloadedmetadata = async () => {
+            try {
+              await videoRef.current.play()
+              resolve()
+            } catch (err) {
+              console.error("Autoplay/play failed:", err)
+              setCameraError("Unable to start video preview: " + err.message)
+            }
           }
-        };
-      });
-    }
+        })
+      }
 
-    setIsCameraOpen(true);
-    setIsProcessing(false);
-    console.log("Camera started successfully");
-  } catch (error) {
-    console.error("Error accessing camera:", error);
-    setIsProcessing(false);
-    setCameraError(`Unable to access camera: ${error.message}`);
+      setIsCameraOpen(true)
+      setIsProcessing(false)
+      console.log("Camera started successfully")
+    } catch (error) {
+      console.error("Error accessing camera:", error)
+      setIsProcessing(false)
+      setCameraError(`Unable to access camera: ${error.message}`)
+    }
   }
-};
 
   const stopCamera = () => {
     console.log("Stopping camera...")
@@ -152,7 +215,6 @@ const CreateReels = () => {
       console.log("Starting recording...")
       chunksRef.current = []
 
-      // Check supported MIME types
       const mimeTypes = ["video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm", "video/mp4"]
 
       let selectedMimeType = ""
@@ -167,7 +229,7 @@ const CreateReels = () => {
 
       const mediaRecorder = new MediaRecorder(streamRef.current, {
         mimeType: selectedMimeType,
-        videoBitsPerSecond: 2500000, // 2.5 Mbps
+        videoBitsPerSecond: 2500000,
       })
 
       mediaRecorderRef.current = mediaRecorder
@@ -210,7 +272,7 @@ const CreateReels = () => {
         setIsRecording(false)
       }
 
-      mediaRecorder.start(1000) // Collect data every second
+      mediaRecorder.start(1000)
       setIsRecording(true)
       console.log("Recording started")
     } catch (error) {
@@ -233,7 +295,6 @@ const CreateReels = () => {
 
     if (isCameraOpen) {
       stopCamera()
-      // Wait a bit before starting with new camera
       setTimeout(() => {
         startCamera()
       }, 500)
@@ -321,10 +382,15 @@ const CreateReels = () => {
     return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
   }
 
+  // Show loading screen
+  if (isLoading) {
+    return <LoadingScreen />
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 overflow-none">
       {/* Modern Header */}
-      <header className="sticky top-0 z-50 w-full  bg-white/95 backdrop-blur-sm shadow-sm">
+      <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm shadow-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-6">
           <div className="flex items-center gap-4">
             <button
@@ -342,7 +408,7 @@ const CreateReels = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3l14 9-14 9V3z" />
               </svg>
               <h1 className="text-xl font-semibold bg-gradient-to-r from-[#208b3a] to-[#2dc653] bg-clip-text text-transparent">
-               Explorea Creator Studio
+                Explorea Creator Studio
               </h1>
             </div>
           </div>
@@ -352,7 +418,9 @@ const CreateReels = () => {
             onClick={isCameraOpen ? stopCamera : startCamera}
             disabled={isProcessing}
             className={`flex items-center gap-2 px-4 py-2 rounded-[50px] font-medium transition-all ${
-              isCameraOpen ? "bg-red-100 text-red-700 hover:bg-red-200" : "bg-[#208b3a] text-[#ffffff] hover:bg-[#25a244]"
+              isCameraOpen
+                ? "bg-red-100 text-red-700 hover:bg-red-200"
+                : "bg-[#208b3a] text-[#ffffff] hover:bg-[#25a244]"
             } ${isProcessing ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             {isProcessing ? (
@@ -799,12 +867,7 @@ const CreateReels = () => {
               <div className="p-6">
                 <div className="aspect-[9/16] max-w-[280px] mx-auto bg-black rounded-2xl overflow-hidden shadow-2xl border-4 border-gray-800">
                   {videoFile ? (
-                    <video
-                      key={videoFile.name} // Force re-render when file changes
-                      controls
-                      className="w-full h-full object-cover"
-                      preload="metadata"
-                    >
+                    <video key={videoFile.name} controls className="w-full h-full object-cover" preload="metadata">
                       <source src={URL.createObjectURL(videoFile)} type={videoFile.type} />
                       Your browser does not support the video tag.
                     </video>

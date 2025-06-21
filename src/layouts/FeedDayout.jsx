@@ -1,16 +1,65 @@
-import React from 'react'
-import SearchBar from '../components/SearchBar'
-import Section from '../components/Section'
+import React from 'react';
+import SearchBar from '../components/SearchBar';
+import Section from '../components/Section';
 
-const FeedDayout = () => {
+const FeedHotel = () => {
+  const suggestionsHotels = [
+    {
+      name: 'Sunset Paradise',
+      image: 'https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg',
+      availability: '5 rooms left',
+    },
+    {
+      name: 'City Lights Inn',
+      image: 'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg',
+      availability: 'Available',
+    },
+    {
+      name: 'Mountain Retreat',
+      image: 'https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg',
+      availability: 'Sold Out',
+    },
+  ];
+
+  const topRatedHotels = [
+    {
+      name: 'Ocean Breeze Resort',
+      image: 'https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg',
+      availability: '2 rooms left',
+    },
+    {
+      name: 'Royal Stay',
+      image: 'https://images.pexels.com/photos/2507010/pexels-photo-2507010.jpeg',
+      availability: 'Available',
+    },
+    {
+      name: 'Skyline Suites',
+      image: 'https://images.pexels.com/photos/261101/pexels-photo-261101.jpeg',
+      availability: 'Available',
+    },
+  ];
+
+  const newUpdateHotels = [
+    {
+      name: 'Lakeside View',
+      image: 'https://images.pexels.com/photos/460537/pexels-photo-460537.jpeg',
+      availability: '3 rooms left',
+    },
+    {
+      name: 'Palm Garden Hotel',
+      image: 'https://images.pexels.com/photos/261181/pexels-photo-261181.jpeg',
+      availability: 'Available',
+    },
+  ];
+
   return (
-    <div className='h-full overflow-y-auto pb-8'>
-      <SearchBar/>
-      <Section title={"Suggetions"}></Section>
-      <Section title={"Top Rated"}></Section>
-      <Section title={"New Update"}></Section>
+    <div className="h-full overflow-y-auto pb-8 space-y-6 px-4">
+      <SearchBar />
+      <Section title="Suggestions" hotels={suggestionsHotels} />
+      <Section title="Top Rated" hotels={topRatedHotels} />
+      <Section title="New Update" hotels={newUpdateHotels} />
     </div>
-  )
-}
+  );
+};
 
-export default FeedDayout
+export default FeedHotel;
