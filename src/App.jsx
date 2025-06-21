@@ -16,6 +16,7 @@ import FeedRestuarant from "./layouts/FeedRestuarant";
 import FeedMarketplace from "./layouts/FeedRestuarant";
 import OtherUserProfile from './pages/OtherUserProfile';
 import ReelPlayer from "./pages/ReelPlayer";
+import CreateReels from "./pages/CreateReels";
 
 const App = () => {
   
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/post/:postId" element={<ShowPost />} />
         <Route path="/profile/:username" element={<OtherUserProfile />} />
         <Route path="/reel/:id" element={<ReelPlayer />} />
+         <Route path="/create-reel" element={<CreateReels />} />
 
       </Routes>
 

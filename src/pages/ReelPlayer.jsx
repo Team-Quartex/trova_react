@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import CreateReelButton from "../components/CreateReelButton";
+import ReelCommentInput from "../components/ReelCommentInput";
+import ReelNavButtons from "../components/ReelNavButtons";
 import {
   FiX,
   FiMessageCircle,
-  FiSend,
   FiShare2,
-  FiImage,
   FiSettings,
 } from "react-icons/fi";
 import {
@@ -13,14 +14,10 @@ import {
   AiFillHeart,
 } from "react-icons/ai";
 import {
-  FaSmile,
-  FaPaperclip,
-  FaTimesCircle,
   FaPlay,
   FaPause,
 } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
-import EmojiPicker from "emoji-picker-react";
 
 const ReelPlayer = () => {
   const { id } = useParams();
@@ -48,6 +45,11 @@ const ReelPlayer = () => {
 
   const fileInputRef = useRef();
   const imageInputRef = useRef();
+
+  // Dummy reel list for navigation simulation
+  const reelList = [
+    1, 2, 3, 4, 5
+  ];
 
   useEffect(() => {
     const video = videoRef.current;
@@ -127,6 +129,21 @@ const ReelPlayer = () => {
     setTimeout(() => setShowPlayPauseIcon(false), 500);
   };
 
+  // Navigation handlers for reels:
+  const goToPreviousReel = () => {
+    const currentIndex = reelList.indexOf(reelId);
+    const prevIndex = currentIndex > 0 ? currentIndex - 1 : reelList.length - 1;
+    const prevReelId = reelList[prevIndex];
+    navigate(`/reel/${prevReelId}`);
+  };
+
+  const goToNextReel = () => {
+    const currentIndex = reelList.indexOf(reelId);
+    const nextIndex = currentIndex < reelList.length - 1 ? currentIndex + 1 : 0;
+    const nextReelId = reelList[nextIndex];
+    navigate(`/reel/${nextReelId}`);
+  };
+
   const reelData = {
     id: reelId,
     src:
@@ -144,13 +161,17 @@ const ReelPlayer = () => {
   return (
     <div className="fixed inset-0 bg-black z-50 flex flex-col md:flex-row overflow-hidden">
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/")}
         className="absolute top-3 left-3 z-50 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-70"
+        aria-label="Close Reel"
       >
         <FiX size={28} />
       </button>
 
-      <div className="flex-grow flex items-center justify-center relative p-2">
+      <div
+        className="flex-grow flex items-center justify-center relative p-2"
+        style={{ minWidth: 320 }}
+      >
         <div
           className="w-full max-w-md md:max-w-lg relative"
           style={{ aspectRatio: "9/16" }}
@@ -200,9 +221,12 @@ const ReelPlayer = () => {
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* Reel navigation buttons - vertical on right inside reel */}
+          <ReelNavButtons onPrev={goToPreviousReel} onNext={goToNextReel} />
         </div>
 
-        <div className="absolute bottom-20 w-full max-w-md md:max-w-lg px-3 text-white">
+        <div className="absolute bottom-20 w-full max-w-md md:max-w-lg px-3 text-white pointer-events-none">
           <div className="flex items-center gap-2 mb-1">
             <img
               src="https://i.pravatar.cc/24?img=5"
@@ -210,7 +234,7 @@ const ReelPlayer = () => {
               className="w-7 h-7 rounded-full"
             />
             <span className="font-semibold text-sm">{reelData.creator}</span>
-            <button className="ml-auto text-xs bg-white text-black rounded px-2 py-1 hover:bg-gray-200">
+            <button className="ml-auto text-xs bg-white text-black rounded px-2 py-1 hover:bg-gray-200 pointer-events-auto">
               Follow
             </button>
           </div>
@@ -226,7 +250,7 @@ const ReelPlayer = () => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.3 }}
-            className="hidden md:flex fixed right-0 top-0 h-full w-96 bg-white flex-col shadow-lg z-50"
+            className="hidden md:flex fixed right-0 top-0 h-full w-120 bg-white flex-col shadow-lg z-60"
           >
             {renderCommentsPanel()}
           </motion.div>
@@ -308,6 +332,8 @@ const ReelPlayer = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+     <CreateReelButton onClick={() => navigate("/create-reel")} />
     </div>
   );
 
@@ -316,7 +342,7 @@ const ReelPlayer = () => {
       <>
         <div className="flex justify-between items-center p-3 border-b">
           <h2 className="font-bold">Comments</h2>
-          <button onClick={() => setCommentsOpen(false)}>
+          <button onClick={() => setCommentsOpen(false)} aria-label="Close Comments">
             <FiX size={24} />
           </button>
         </div>
@@ -327,8 +353,21 @@ const ReelPlayer = () => {
             </div>
           ))}
         </div>
-        {/* Your full comment input bar code from earlier */}
-        {/* ... (same as before, I can include it in full if you'd like!) */}
+        <ReelCommentInput
+          commentText={commentText}
+          setCommentText={setCommentText}
+          userName={userName}
+          setShowEmojiPicker={setShowEmojiPicker}
+          showEmojiPicker={showEmojiPicker}
+          onEmojiClick={onEmojiClick}
+          fileInputRef={fileInputRef}
+          imageInputRef={imageInputRef}
+          handleFileChange={handleFileChange}
+          attachedFiles={attachedFiles}
+          removeFile={removeFile}
+          handleCommentSubmit={handleCommentSubmit}
+          setInputFocused={() => {}}
+        />
       </>
     );
   }
