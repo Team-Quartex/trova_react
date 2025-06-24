@@ -17,6 +17,7 @@ import FeedMarketplace from "./layouts/FeedRestuarant";
 import OtherUserProfile from './pages/OtherUserProfile';
 import ReelPlayer from "./pages/ReelPlayer";
 import CreateReels from "./pages/CreateReels";
+import HotelProfile from "./pages/HotelProfile";
 
 const App = () => {
   
@@ -48,6 +49,7 @@ const App = () => {
         <Route path="/profile/:username" element={<OtherUserProfile />} />
         <Route path="/reel/:id" element={<ReelPlayer />} />
          <Route path="/create-reel" element={<CreateReels />} />
+          <Route path="/hotel/hotelname" element={<HotelProfile />} />
 
       </Routes>
 

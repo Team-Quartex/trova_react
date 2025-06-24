@@ -61,11 +61,21 @@ const FeedHotel = () => {
   ];
 
   return (
-    <div className="h-full overflow-y-auto pb-8 space-y-6 px-4">
+    <div className="h-full overflow-y-auto pb-8 space-y-6 px-4 relative">
       <SearchBar />
       <Section title="Suggestions" hotels={suggestionsHotels} />
       <Section title="Top Rated" hotels={topRatedHotels} />
       <Section title="New Update" hotels={newUpdateHotels} />
+
+      {/* Sticky white bar with button */}
+      <div className="fixed bottom-0 left-0 lg:left-[20vw] w-full lg:w-[60vw] bg-white border-t border-gray-200 p-3 flex justify-end shadow-lg">
+        <button
+          className="bg-blue-600 text-white font-semibold px-4 py-2 rounded-full shadow hover:bg-blue-700 transition"
+          onClick={() => alert('List your hotel feature coming soon!')}
+        >
+          List Your Hotel
+        </button>
+      </div>
     </div>
   );
 };

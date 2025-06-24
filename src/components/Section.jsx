@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Section = ({ title, hotels = [] }) => {
-  // Helper to render stars
+  const navigate = useNavigate();
+
   const renderStars = (rating) => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -22,6 +24,12 @@ const Section = ({ title, hotels = [] }) => {
     return stars;
   };
 
+  const handleViewHotel = (hotelName) => {
+    // Construct URL-friendly hotel name, e.g. lowercase, replace spaces with dashes
+    const urlName = hotelName.toLowerCase().replace(/\s+/g, "-");
+    navigate(`/hotel/hotelname`);
+  };
+
   return (
     <div className="w-full">
       <h1 className="text-2xl font-bold mb-3">{title}</h1>
@@ -37,8 +45,7 @@ const Section = ({ title, hotels = [] }) => {
               className="w-full h-40 object-cover rounded-xl mb-2"
             />
             <h2 className="text-lg font-semibold text-center">{hotel.name}</h2>
-            
-            {/* Star Rating */}
+
             <div className="flex mb-1 text-yellow-500">
               {renderStars(hotel.rating)}
               <span className="text-sm text-gray-600 ml-1">({hotel.rating})</span>
@@ -55,7 +62,10 @@ const Section = ({ title, hotels = [] }) => {
             </p>
 
             <div className="flex space-x-2">
-              <button className="px-3 py-1 text-sm border border-[#000000] text-[#000000] rounded-lg hover:bg-gray-50 transition">
+              <button
+                onClick={() => handleViewHotel(hotel.name)}
+                className="px-3 py-1 text-sm border border-[#000000] text-[#000000] rounded-lg hover:bg-gray-50 transition"
+              >
                 View Hotel
               </button>
               <button
