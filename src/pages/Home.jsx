@@ -80,7 +80,7 @@ const Home = () => {
             <h1 className="text-xl sm:text-2xl font-bold">{getPageTitle()}</h1>
           </div>
           <div className="flex gap-2 items-center text-gray-700">
-            <Link to="/setting" className="p-2 rounded-full hover:bg-gray-200">
+            <Link to="/settings" className="p-2 rounded-full hover:bg-gray-200">
               <FiSettings size={20} />
             </Link>
             <Link to="/message" className="p-2 rounded-full hover:bg-gray-200">
