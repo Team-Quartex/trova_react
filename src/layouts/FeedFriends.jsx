@@ -16,7 +16,7 @@ const App = () => {
     },
     {
       username: "Maya Patel",
-      userImage: "https://images.pexels.com/photos/30785043/pexels-photo-30785043.jpeg",
+      userImage: "https://images.pexels.com/photos/32582935/pexels-photo-32582935.jpeg",
       isOnline: true,
       mutualFriends: 8,
     },

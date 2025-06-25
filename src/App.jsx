@@ -20,6 +20,7 @@ import CreateReels from "./pages/CreateReels";
 import HotelProfile from "./pages/HotelProfile";
 import { Settings } from "lucide-react";
 import SettingsPanel from "./pages/SettingsPanel";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   
@@ -53,6 +54,7 @@ const App = () => {
          <Route path="/create-reel" element={<CreateReels />} />
           <Route path="/hotel/hotelname" element={<HotelProfile />} />
           <Route path="/settings" element={<SettingsPanel />} />
+          <Route path="*" element={<NotFound />} />
 
       </Routes>
 

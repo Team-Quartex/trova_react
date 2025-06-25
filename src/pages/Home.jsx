@@ -21,7 +21,7 @@ const Home = () => {
     const timer = setTimeout(() => {
       setShowLoginModal(true);
       document.body.style.overflow = 'hidden'; // Prevent scroll behind modal
-    }, 10000); // Show modal after 35 seconds
+    }, 10000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -45,36 +45,56 @@ const Home = () => {
 
   return (
     <div className="w-full h-screen flex flex-col lg:flex-row overflow-hidden relative">
-      {/* Sidebar */}
-      <div
-        className={`
-          fixed top-0 left-0 z-40 h-full w-64 bg-white shadow-lg transition-transform transform
-          ${showSidebar ? 'translate-x-0' : '-translate-x-full'}
-          lg:translate-x-0 lg:relative lg:w-[20vw] lg:block
-        `}
-      >
-        <div className="lg:hidden p-3 flex justify-end">
-          <button onClick={() => setShowSidebar(false)}>
-            <FiX size={24} />
-          </button>
-        </div>
+
+      {/* Static Sidebar on Large Screens */}
+      <div className="hidden lg:block h-full border-r border-gray-200 z-30">
         <ProfileNav />
       </div>
 
-      {/* Mobile Sidebar Overlay */}
-      {showSidebar && (
-        <div
-          className="fixed inset-0 z-30 bg-black bg-opacity-50 lg:hidden"
-          onClick={() => setShowSidebar(false)}
-        />
-      )}
+      {/* Mobile Sidebar */}
+      <AnimatePresence>
+        {showSidebar && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-30 bg-black lg:hidden"
+              onClick={() => setShowSidebar(false)}
+            />
+
+            {/* Sliding Sidebar Panel */}
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ duration: 0.3 }}
+              className="fixed top-0 left-0 w-64 h-full bg-white z-40 shadow-lg overflow-y-auto lg:hidden"
+            >
+              {/* Close Button */}
+              <div className="p-3 flex justify-end">
+                <button onClick={() => setShowSidebar(false)}>
+                  <FiX size={24} />
+                </button>
+              </div>
+              {/* ProfileNav renders here directly with no wrapper */}
+              <ProfileNav />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Main Section */}
       <div className="flex-1 w-full lg:w-[60vw] h-full px-4 pt-3 overflow-y-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-3">
-            <button onClick={() => setShowSidebar(!showSidebar)} className="lg:hidden p-2 rounded-md hover:bg-gray-200">
+            <button
+              onClick={() => setShowSidebar(true)}
+              className="lg:hidden p-2 rounded-md hover:bg-gray-200"
+            >
               <FiMenu size={24} />
             </button>
             <h1 className="text-xl sm:text-2xl font-bold">{getPageTitle()}</h1>
@@ -87,13 +107,19 @@ const Home = () => {
               <FiMail size={20} />
             </Link>
             <div className="relative">
-              <button onClick={() => setShowNotification(!showNotification)} className="p-2 rounded-full hover:bg-gray-200">
+              <button
+                onClick={() => setShowNotification(!showNotification)}
+                className="p-2 rounded-full hover:bg-gray-200"
+              >
                 <FiBell size={20} />
               </button>
               {showNotification && <NotificationPanel onClick={() => setShowNotification(false)} />}
             </div>
             {getPageTitle() !== 'Search' && (
-              <Link to="/search" className="bg-primary p-2 rounded-full hover:bg-primary-dark transition">
+              <Link
+                to="/search"
+                className="bg-primary p-2 rounded-full hover:bg-primary-dark transition"
+              >
                 <FiSearch size={20} color="white" />
               </Link>
             )}
@@ -117,12 +143,12 @@ const Home = () => {
         <EndScreen />
       </div>
 
-      {/* Right Layout */}
+      {/* Right Sidebar on Large Screens */}
       <div className="hidden lg:block w-[20vw] h-full border-l border-gray-200">
         <RightLayout />
       </div>
 
-      {/* Login Modal Overlay */}
+      {/* Login Prompt */}
       <LoginPromptModal
         isOpen={showLoginModal}
         onClose={closeLoginModal}
