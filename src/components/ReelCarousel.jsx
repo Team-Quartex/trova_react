@@ -17,7 +17,8 @@ const ReelCarousel = ({ reels }) => {
   };
 
   return (
-    <div className="relative mb-6 no-scrollbar ">
+    <div className="relative mb-6 no-scrollbar shadow m-[5px] p-[20px] rounded-[30px]">
+      <div className="text-[20px] font-bold py-[10px]">Reels</div>
       {/* Left Button */}
       <button
         onClick={() => scroll("left")}

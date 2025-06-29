@@ -6,13 +6,16 @@ import {
   FaCommentDots,
   FaSmile,
   FaPaperclip,
-  FaTimesCircle
+  FaTimesCircle,
 } from 'react-icons/fa';
 import { FiShare, FiSend, FiImage } from 'react-icons/fi';
 import { AnimatePresence, motion } from 'framer-motion';
-import EmojiPicker from 'emoji-picker-react';  // Import emoji picker
+import EmojiPicker from 'emoji-picker-react';
+
 import PostImage from './PostImage';
 import VerifiedBadge from '../components/VerifiedBadge';
+import PostMenu from '../components/PostMenu';
+import UserHoverCard from '../components/UserHoverCard'; // New Component
 
 const Post = ({ userName, userImage, images, date, description, likes, comments }) => {
   const [liked, setLiked] = useState(false);
@@ -22,6 +25,7 @@ const Post = ({ userName, userImage, images, date, description, likes, comments 
   const [inputFocused, setInputFocused] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [attachedFiles, setAttachedFiles] = useState([]);
+  const [showHoverCard, setShowHoverCard] = useState(false);
 
   const fileInputRef = useRef(null);
   const imageInputRef = useRef(null);
@@ -41,7 +45,7 @@ const Post = ({ userName, userImage, images, date, description, likes, comments 
   const handleFileChange = (e) => {
     const filesArray = Array.from(e.target.files);
     setAttachedFiles(prev => [...prev, ...filesArray]);
-    e.target.value = null; // Reset input so same file can be selected again if needed
+    e.target.value = null;
   };
 
   const removeFile = (index) => {
@@ -52,23 +56,38 @@ const Post = ({ userName, userImage, images, date, description, likes, comments 
     setCommentText(prev => prev + emojiData.emoji);
   };
 
+  const user = {
+    id: userName.toLowerCase().replace(/\s/g, ''),
+    name: userName,
+    image: userImage,
+    about: "Traveler | Foodie | Photographer",
+  };
+
   return (
     <div className='w-full bg-white mb-6 rounded-3xl py-3 px-4 border border-gray-200 max-w-xl mx-auto sm:max-w-full'>
-      {/* User Header */}
+      {/* Header */}
       <div className='flex justify-between mb-2 flex-wrap items-center'>
         <div className='flex gap-4 items-center flex-shrink-0'>
           <img src={userImage} alt="" className='w-12 h-12 rounded-full object-cover' />
           <div className='flex flex-col'>
-            <div className='flex items-center gap-1'>
-              <h1 className='text-lg sm:text-xl font-bold'>{userName}</h1>
+            <div
+              className='flex items-center gap-1 relative'
+              onMouseEnter={() => setShowHoverCard(true)}
+              onMouseLeave={() => setShowHoverCard(false)}
+            >
+              <h1 className='text-lg sm:text-xl font-bold cursor-pointer'>{userName}</h1>
               <VerifiedBadge size="13px" />
+
+              <AnimatePresence>
+                {showHoverCard && (
+                  <UserHoverCard user={user} position="top-full left-0" />
+                )}
+              </AnimatePresence>
             </div>
             <h3 className='text-xs sm:text-sm text-gray-600'>{date}</h3>
           </div>
         </div>
-        <button className='mt-2 sm:mt-0 p-1 rounded hover:bg-gray-200 transition'>
-          <i className='fi fi-rr-bookmark'></i>
-        </button>
+        <PostMenu />
       </div>
 
       {/* Description */}
@@ -90,12 +109,12 @@ const Post = ({ userName, userImage, images, date, description, likes, comments 
           <p>{commented ? 'Commented' : comments}</p>
         </div>
         <div onClick={() => setShared(!shared)} className='flex items-center cursor-pointer gap-2 select-none'>
-          {shared ? <FaShareSquare className="text-green-500" /> : <FiShare />}
+          <FiShare className={shared ? 'text-green-500' : ''} />
           <p>{shared ? 'Shared' : 'Share'}</p>
         </div>
       </div>
 
-      {/* Comment Input with Emoji Picker & Attachments */}
+      {/* Comment Section */}
       <AnimatePresence>
         {commented && (
           <motion.div
@@ -105,55 +124,34 @@ const Post = ({ userName, userImage, images, date, description, likes, comments 
             transition={{ duration: 0.3 }}
             className="mt-4"
           >
-            <div className="flex items-center gap-2 relative border border-gray-300 rounded-full
-                  focus:outline-none focus:ring-1 focus:ring-[#52b788] transition text-sm p-1">
+            <div className="flex items-center gap-2 relative border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-[#52b788] transition text-sm p-1">
               <input
                 type="text"
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 placeholder={`Comment as ${userName}`}
                 onFocus={() => setInputFocused(true)}
-                onBlur={() => setTimeout(() => setInputFocused(false), 200)} // small delay for buttons
+                onBlur={() => setTimeout(() => setInputFocused(false), 200)}
                 className="flex-grow px-4 py-2 outline-none"
               />
-              <button
-                type="button"
-                onClick={() => setShowEmojiPicker(val => !val)}
-                className="p-2 rounded-full hover:bg-gray-200 transition text-gray-600"
-                aria-label="Toggle Emoji Picker"
-              >
+              <button type="button" onClick={() => setShowEmojiPicker(val => !val)} className="p-2 rounded-full hover:bg-gray-200 transition text-gray-600">
                 <FaSmile size={18} />
               </button>
-              <button
-                type="button"
-                onClick={() => fileInputRef.current.click()}
-                className="p-2 rounded-full hover:bg-gray-200 transition text-gray-600"
-                aria-label="Attach File"
-              >
+              <button type="button" onClick={() => fileInputRef.current.click()} className="p-2 rounded-full hover:bg-gray-200 transition text-gray-600">
                 <FaPaperclip size={18} />
               </button>
-              <button
-                type="button"
-                onClick={() => imageInputRef.current.click()}
-                className="p-2 rounded-full hover:bg-gray-200 transition text-gray-600"
-                aria-label="Attach Image"
-              >
+              <button type="button" onClick={() => imageInputRef.current.click()} className="p-2 rounded-full hover:bg-gray-200 transition text-gray-600">
                 <FiImage size={18} />
               </button>
               <button
                 onClick={handleCommentSubmit}
                 disabled={!commentText.trim() && attachedFiles.length === 0}
-                className={`p-2 rounded-full
-                  ${(commentText.trim() || attachedFiles.length > 0)
-                    ? 'bg-[#52b788] hover:bg-[#40916c] cursor-pointer'
-                    : 'bg-gray-300 cursor-not-allowed'}
-                  text-white transition`}
-                aria-label="Post Comment"
+                className={`p-2 rounded-full ${commentText.trim() || attachedFiles.length > 0 ? 'bg-[#52b788] hover:bg-[#40916c] cursor-pointer' : 'bg-gray-300 cursor-not-allowed'} text-white transition`}
               >
                 <FiSend size={18} />
               </button>
 
-              {/* Emoji picker popup */}
+              {/* Emoji Picker */}
               {showEmojiPicker && (
                 <div className="absolute bottom-full mb-2 right-0 z-50">
                   <EmojiPicker
@@ -166,7 +164,7 @@ const Post = ({ userName, userImage, images, date, description, likes, comments 
               )}
             </div>
 
-            {/* Hidden file inputs */}
+            {/* Hidden Inputs */}
             <input
               ref={fileInputRef}
               type="file"
@@ -183,7 +181,7 @@ const Post = ({ userName, userImage, images, date, description, likes, comments 
               onChange={handleFileChange}
             />
 
-            {/* Preview attached files */}
+            {/* Preview Files */}
             {attachedFiles.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-3 max-w-full overflow-x-auto">
                 {attachedFiles.map((file, index) => {
@@ -201,7 +199,6 @@ const Post = ({ userName, userImage, images, date, description, likes, comments 
                       <button
                         onClick={() => removeFile(index)}
                         className="absolute top-1 right-1 text-red-500 bg-white rounded-full hover:text-red-700 transition"
-                        aria-label="Remove file"
                       >
                         <FaTimesCircle size={18} />
                       </button>

@@ -21,6 +21,9 @@ import HotelProfile from "./pages/HotelProfile";
 import { Settings } from "lucide-react";
 import SettingsPanel from "./pages/SettingsPanel";
 import NotFound from "./pages/NotFound";
+import ResetPassword from "./pages/ResetPassword";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import RentalItem from "./pages/RentalItem";
 
 const App = () => {
   
@@ -55,6 +58,9 @@ const App = () => {
           <Route path="/hotel/hotelname" element={<HotelProfile />} />
           <Route path="/settings" element={<SettingsPanel />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/terms" element={<TermsAndConditions />} />
+          <Route path="/rentitem/itemname" element={<RentalItem />} />
 
       </Routes>
 

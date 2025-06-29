@@ -220,7 +220,7 @@ const LightTravelSettings = () => {
   }
 
   const handleBack = () => {
-    console.log("Navigating back to app...")
+    window.history.back();
   }
 
   const tabs = [
@@ -851,6 +851,7 @@ const LightTravelSettings = () => {
                                 </div>
                               </div>
                             </button>
+                            
 
                             <button
                               onClick={handleDeleteAccount}

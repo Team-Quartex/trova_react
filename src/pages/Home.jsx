@@ -71,7 +71,7 @@ const Home = () => {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ duration: 0.3 }}
-              className="fixed top-0 left-0 w-64 h-full bg-white z-40 shadow-lg overflow-y-auto lg:hidden"
+              className="fixed top-0 left-0 w-64 h-full bg-white z-40 shadow-lg overflow-y-auto lg:hidden scrollbar-hide"
             >
               {/* Close Button */}
               <div className="p-3 flex justify-end">
@@ -87,7 +87,7 @@ const Home = () => {
       </AnimatePresence>
 
       {/* Main Section */}
-      <div className="flex-1 w-full lg:w-[60vw] h-full px-4 pt-3 overflow-y-auto">
+      <div className="flex-1 w-full lg:w-[60vw] h-full px-4 pt-3 overflow-y-auto scrollbar-hide">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-3">
