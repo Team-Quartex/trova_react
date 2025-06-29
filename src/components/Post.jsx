@@ -13,9 +13,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import EmojiPicker from 'emoji-picker-react';
 
 import PostImage from './PostImage';
+import PostModal from './PostModal';
 import VerifiedBadge from '../components/VerifiedBadge';
 import PostMenu from '../components/PostMenu';
-import UserHoverCard from '../components/UserHoverCard'; // New Component
+import UserHoverCard from '../components/UserHoverCard';
 
 const Post = ({ userName, userImage, images, date, description, likes, comments }) => {
   const [liked, setLiked] = useState(false);
@@ -26,6 +27,7 @@ const Post = ({ userName, userImage, images, date, description, likes, comments 
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [attachedFiles, setAttachedFiles] = useState([]);
   const [showHoverCard, setShowHoverCard] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fileInputRef = useRef(null);
   const imageInputRef = useRef(null);
@@ -56,6 +58,10 @@ const Post = ({ userName, userImage, images, date, description, likes, comments 
     setCommentText(prev => prev + emojiData.emoji);
   };
 
+  const handlePostClick = () => {
+    setIsModalOpen(true);
+  };
+
   const user = {
     id: userName.toLowerCase().replace(/\s/g, ''),
     name: userName,
@@ -64,153 +70,185 @@ const Post = ({ userName, userImage, images, date, description, likes, comments 
   };
 
   return (
-    <div className='w-full bg-white mb-6 rounded-3xl py-3 px-4 border border-gray-200 max-w-xl mx-auto sm:max-w-full'>
-      {/* Header */}
-      <div className='flex justify-between mb-2 flex-wrap items-center'>
-        <div className='flex gap-4 items-center flex-shrink-0'>
-          <img src={userImage} alt="" className='w-12 h-12 rounded-full object-cover' />
-          <div className='flex flex-col'>
-            <div
-              className='flex items-center gap-1 relative'
-              onMouseEnter={() => setShowHoverCard(true)}
-              onMouseLeave={() => setShowHoverCard(false)}
-            >
-              <h1 className='text-lg sm:text-xl font-bold cursor-pointer'>{userName}</h1>
-              <VerifiedBadge size="13px" />
+    <>
+      <div className='w-full bg-white mb-6 rounded-3xl py-3 px-4 border border-gray-200 max-w-xl mx-auto sm:max-w-full'>
+        {/* Header */}
+        <div className='flex justify-between mb-2 flex-wrap items-center'>
+          <div className='flex gap-4 items-center flex-shrink-0'>
+            <img src={userImage} alt="" className='w-12 h-12 rounded-full object-cover' />
+            <div className='flex flex-col'>
+              <div
+                className='flex items-center gap-1 relative'
+                onMouseEnter={() => setShowHoverCard(true)}
+                onMouseLeave={() => setShowHoverCard(false)}
+              >
+                <h1 className='text-lg sm:text-xl font-bold cursor-pointer'>{userName}</h1>
+                <VerifiedBadge size="13px" />
 
-              <AnimatePresence>
-                {showHoverCard && (
-                  <UserHoverCard user={user} position="top-full left-0" />
-                )}
-              </AnimatePresence>
+                <AnimatePresence>
+                  {showHoverCard && (
+                    <UserHoverCard user={user} position="top-full left-0" />
+                  )}
+                </AnimatePresence>
+              </div>
+              <h3 className='text-xs sm:text-sm text-gray-600'>{date}</h3>
             </div>
-            <h3 className='text-xs sm:text-sm text-gray-600'>{date}</h3>
+          </div>
+          <PostMenu />
+        </div>
+
+        {/* Description - Clickable */}
+        <div 
+          className='my-1.5 text-sm sm:text-base cursor-pointer hover:bg-gray-50 rounded-lg p-2 -m-2 transition-colors'
+          onClick={handlePostClick}
+        >
+          <p>{description}</p>
+        </div>
+
+        {/* Image - Clickable */}
+        <div onClick={handlePostClick} className="cursor-pointer">
+          <PostImage images={images} />
+        </div>
+
+        {/* Actions */}
+        <div className='mt-3 flex flex-wrap gap-6 text-sm sm:text-[16px] font-medium'>
+          <div onClick={() => setLiked(!liked)} className='flex items-center cursor-pointer gap-2 select-none'>
+            {liked ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
+            <p>{liked ? 'Liked' : likes}</p>
+          </div>
+          <div onClick={() => setCommented(!commented)} className='flex items-center cursor-pointer gap-2 select-none'>
+            {commented ? <FaCommentDots className="text-blue-500" /> : <FaRegCommentDots />}
+            <p>{commented ? 'Commented' : comments}</p>
+          </div>
+          <div onClick={() => setShared(!shared)} className='flex items-center cursor-pointer gap-2 select-none'>
+            <FiShare className={shared ? 'text-green-500' : ''} />
+            <p>{shared ? 'Shared' : 'Share'}</p>
           </div>
         </div>
-        <PostMenu />
-      </div>
 
-      {/* Description */}
-      <div className='my-1.5 text-sm sm:text-base'>
-        <p>{description}</p>
-      </div>
+        {/* Comment Section */}
+        <AnimatePresence>
+          {commented && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.3 }}
+              className="mt-4"
+            >
+              <div className="flex items-center gap-2 relative border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-[#52b788] transition text-sm p-1">
+                <input
+                  type="text"
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  placeholder={`Comment as ${userName}`}
+                  onFocus={() => setInputFocused(true)}
+                  onBlur={() => setTimeout(() => setInputFocused(false), 200)}
+                  className="flex-grow px-4 py-2 outline-none"
+                />
+                <button type="button" onClick={() => setShowEmojiPicker(val => !val)} className="p-2 rounded-full hover:bg-gray-200 transition text-gray-600">
+                  <FaSmile size={18} />
+                </button>
+                <button type="button" onClick={() => fileInputRef.current.click()} className="p-2 rounded-full hover:bg-gray-200 transition text-gray-600">
+                  <FaPaperclip size={18} />
+                </button>
+                <button type="button" onClick={() => imageInputRef.current.click()} className="p-2 rounded-full hover:bg-gray-200 transition text-gray-600">
+                  <FiImage size={18} />
+                </button>
+                <button
+                  onClick={handleCommentSubmit}
+                  disabled={!commentText.trim() && attachedFiles.length === 0}
+                  className={`p-2 rounded-full ${commentText.trim() || attachedFiles.length > 0 ? 'bg-[#52b788] hover:bg-[#40916c] cursor-pointer' : 'bg-gray-300 cursor-not-allowed'} text-white transition`}
+                >
+                  <FiSend size={18} />
+                </button>
 
-      {/* Image */}
-      <PostImage images={images} />
+                {/* Emoji Picker */}
+                {showEmojiPicker && (
+                  <div className="absolute bottom-full mb-2 right-0 z-50">
+                    <EmojiPicker
+                      onEmojiClick={onEmojiClick}
+                      preload={true}
+                      searchDisabled={true}
+                      skinTonePickerDisabled={true}
+                    />
+                  </div>
+                )}
+              </div>
 
-      {/* Actions */}
-      <div className='mt-3 flex flex-wrap gap-6 text-sm sm:text-[16px] font-medium'>
-        <div onClick={() => setLiked(!liked)} className='flex items-center cursor-pointer gap-2 select-none'>
-          {liked ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
-          <p>{liked ? 'Liked' : likes}</p>
-        </div>
-        <div onClick={() => setCommented(!commented)} className='flex items-center cursor-pointer gap-2 select-none'>
-          {commented ? <FaCommentDots className="text-blue-500" /> : <FaRegCommentDots />}
-          <p>{commented ? 'Commented' : comments}</p>
-        </div>
-        <div onClick={() => setShared(!shared)} className='flex items-center cursor-pointer gap-2 select-none'>
-          <FiShare className={shared ? 'text-green-500' : ''} />
-          <p>{shared ? 'Shared' : 'Share'}</p>
-        </div>
-      </div>
-
-      {/* Comment Section */}
-      <AnimatePresence>
-        {commented && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.3 }}
-            className="mt-4"
-          >
-            <div className="flex items-center gap-2 relative border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-[#52b788] transition text-sm p-1">
+              {/* Hidden Inputs */}
               <input
-                type="text"
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                placeholder={`Comment as ${userName}`}
-                onFocus={() => setInputFocused(true)}
-                onBlur={() => setTimeout(() => setInputFocused(false), 200)}
-                className="flex-grow px-4 py-2 outline-none"
+                ref={fileInputRef}
+                type="file"
+                multiple
+                className="hidden"
+                onChange={handleFileChange}
               />
-              <button type="button" onClick={() => setShowEmojiPicker(val => !val)} className="p-2 rounded-full hover:bg-gray-200 transition text-gray-600">
-                <FaSmile size={18} />
-              </button>
-              <button type="button" onClick={() => fileInputRef.current.click()} className="p-2 rounded-full hover:bg-gray-200 transition text-gray-600">
-                <FaPaperclip size={18} />
-              </button>
-              <button type="button" onClick={() => imageInputRef.current.click()} className="p-2 rounded-full hover:bg-gray-200 transition text-gray-600">
-                <FiImage size={18} />
-              </button>
-              <button
-                onClick={handleCommentSubmit}
-                disabled={!commentText.trim() && attachedFiles.length === 0}
-                className={`p-2 rounded-full ${commentText.trim() || attachedFiles.length > 0 ? 'bg-[#52b788] hover:bg-[#40916c] cursor-pointer' : 'bg-gray-300 cursor-not-allowed'} text-white transition`}
-              >
-                <FiSend size={18} />
-              </button>
+              <input
+                ref={imageInputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={handleFileChange}
+              />
 
-              {/* Emoji Picker */}
-              {showEmojiPicker && (
-                <div className="absolute bottom-full mb-2 right-0 z-50">
-                  <EmojiPicker
-                    onEmojiClick={onEmojiClick}
-                    preload={true}
-                    searchDisabled={true}
-                    skinTonePickerDisabled={true}
-                  />
+              {/* Preview Files */}
+              {attachedFiles.length > 0 && (
+                <div className="mt-3 flex flex-wrap gap-3 max-w-full overflow-x-auto">
+                  {attachedFiles.map((file, index) => {
+                    const url = URL.createObjectURL(file);
+                    const isImage = file.type.startsWith('image/');
+                    return (
+                      <div key={index} className="relative w-20 h-20 rounded-md border border-gray-300 overflow-hidden">
+                        {isImage ? (
+                          <img src={url} alt={file.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="flex items-center justify-center w-full h-full bg-gray-100 text-gray-700 text-xs p-1 break-words">
+                            {file.name}
+                          </div>
+                        )}
+                        <button
+                          onClick={() => removeFile(index)}
+                          className="absolute top-1 right-1 text-red-500 bg-white rounded-full hover:text-red-700 transition"
+                        >
+                          <FaTimesCircle size={18} />
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
-            </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
 
-            {/* Hidden Inputs */}
-            <input
-              ref={fileInputRef}
-              type="file"
-              multiple
-              className="hidden"
-              onChange={handleFileChange}
-            />
-            <input
-              ref={imageInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              className="hidden"
-              onChange={handleFileChange}
-            />
-
-            {/* Preview Files */}
-            {attachedFiles.length > 0 && (
-              <div className="mt-3 flex flex-wrap gap-3 max-w-full overflow-x-auto">
-                {attachedFiles.map((file, index) => {
-                  const url = URL.createObjectURL(file);
-                  const isImage = file.type.startsWith('image/');
-                  return (
-                    <div key={index} className="relative w-20 h-20 rounded-md border border-gray-300 overflow-hidden">
-                      {isImage ? (
-                        <img src={url} alt={file.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="flex items-center justify-center w-full h-full bg-gray-100 text-gray-700 text-xs p-1 break-words">
-                          {file.name}
-                        </div>
-                      )}
-                      <button
-                        onClick={() => removeFile(index)}
-                        className="absolute top-1 right-1 text-red-500 bg-white rounded-full hover:text-red-700 transition"
-                      >
-                        <FaTimesCircle size={18} />
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+      {/* Post Modal */}
+      <PostModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        userName={userName}
+        userImage={userImage}
+        images={images}
+        date={date}
+        description={description}
+        likes={likes}
+        comments={comments}
+        commentText={commentText}
+        setCommentText={setCommentText}
+        attachedFiles={attachedFiles}
+        setAttachedFiles={setAttachedFiles}
+        handleCommentSubmit={handleCommentSubmit}
+        handleFileChange={handleFileChange}
+        removeFile={removeFile}
+        fileInputRef={fileInputRef}
+        imageInputRef={imageInputRef}
+        showEmojiPicker={showEmojiPicker}
+        setShowEmojiPicker={setShowEmojiPicker}
+        onEmojiClick={onEmojiClick}
+      />
+    </>
   );
 };
 

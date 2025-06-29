@@ -252,7 +252,7 @@ export default function RentalItem() {
                 <button
                   onClick={handleRentNow}
                   disabled={!isAvailable}
-                  className="w-full mt-6 flex items-center justify-center gap-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:transform-none text-lg"
+                  className="w-full mt-6 flex items-center justify-center gap-3 bg-gradient-to-r from-[#000000] to-[#000000]/90 hover:from-gray-600 hover:to-gray-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:transform-none text-lg"
                 >
                   <CreditCard className="h-6 w-6" />
                   {isAvailable ? 'Rent Now' : 'Check Availability First'}

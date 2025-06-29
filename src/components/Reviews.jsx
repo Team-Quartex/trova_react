@@ -55,7 +55,7 @@ export default function Reviews({ reviews: initialReviews, onAddReview }) {
         </div>
         <button
           onClick={() => setShowAddReview(!showAddReview)}
-          className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105"
+          className="flex items-center gap-2 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-800 hover:to-gray-900 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 transform hover:scale-105"
         >
           <Plus className="h-4 w-4" />
           Add Review
@@ -88,7 +88,7 @@ export default function Reviews({ reviews: initialReviews, onAddReview }) {
                 type="text"
                 value={newReview.name}
                 onChange={(e) => setNewReview({ ...newReview, name: e.target.value })}
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-1 focus:border-[#248277] outline-none transition-all duration-200"
                 placeholder="Enter your name"
               />
             </div>
@@ -111,7 +111,7 @@ export default function Reviews({ reviews: initialReviews, onAddReview }) {
                 value={newReview.comment}
                 onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
                 rows={4}
-                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                className="w-full p-3 border border-gray-300 rounded-xl focus:ring-1 focus:border-[#248277] outline-none transition-all duration-200 resize-none"
                 placeholder="Share your experience..."
               />
             </div>
@@ -119,7 +119,7 @@ export default function Reviews({ reviews: initialReviews, onAddReview }) {
             <div className="flex gap-3">
               <button
                 type="submit"
-                className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 transform hover:scale-105"
+                className="flex items-center gap-2 bg-[#248277] hover:bg-[#248277]/90 text-white font-medium px-6 py-3 rounded-xl transition-all duration-200 transform hover:scale-105"
               >
                 <Send className="h-4 w-4" />
                 Submit Review

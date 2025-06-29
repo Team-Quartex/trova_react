@@ -67,7 +67,7 @@ export default function AvailabilityChecker({ startDate, endDate, onAvailability
 
       {/* Availability Status */}
       {status && (
-        <div className={`${status.bgColor} border border-opacity-20 rounded-xl p-4 transition-all duration-300 animate-fadeIn`}>
+        <div className={`${status.bgColor} border-[#248277] border-opacity-20 rounded-xl p-4 transition-all duration-300 animate-fadeIn`}>
           <div className="flex items-center gap-3">
             <status.icon className={`h-6 w-6 ${status.iconColor}`} />
             <span className={`font-medium ${status.textColor}`}>
